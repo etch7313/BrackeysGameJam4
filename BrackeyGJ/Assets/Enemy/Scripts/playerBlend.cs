@@ -14,6 +14,9 @@ public class playerBlend : MonoBehaviour
     public bool forward;
     public bool backward;
     public bool isPlaying = true;
+
+    float forwardNonsmooth;
+    float rightNonsmooth;
     
     //recordables
     public GameObject headpivot; //rotation only
@@ -21,7 +24,7 @@ public class playerBlend : MonoBehaviour
     public float rightSpeed; //Right/Left Animation
     public bool shootNow = false;
     //animation 
-    [SerializeField] private float acceleration = 0.006f;
+    [SerializeField] private float acceleration = 0.00005f;
 
     void Start()
     {
@@ -59,6 +62,13 @@ public class playerBlend : MonoBehaviour
         else{
             applyRightForward();
         }
+        smoothInput();
+    }
+
+    public void smoothInput()
+    {
+        forwardSpeed = smoothValue(forwardSpeed, forwardNonsmooth);
+        rightSpeed = smoothValue(rightSpeed, rightNonsmooth);
     }
     
     float xRotation = 0;
@@ -72,57 +82,36 @@ public class playerBlend : MonoBehaviour
     void MyInput()
     {
         //Forward & Backward
-        if (Input.GetKey(KeyCode.W) && forwardSpeed<=1)
+        if (Input.GetKey(KeyCode.W))
         {
-            forwardSpeed = Mathf.Lerp(forwardSpeed, 1.5f, acceleration);
+            forwardNonsmooth = 1;
         }
-        else if (Input.GetKey(KeyCode.S) && forwardSpeed >=-1)
+        else if (Input.GetKey(KeyCode.S))
         {
-            forwardSpeed = Mathf.Lerp(forwardSpeed, -1.5f, acceleration);
-
-        }
-        else if (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.W))
-        {
-            Invoke("resetForwardToZero",0.5f);
+            forwardNonsmooth = -1;
         }
         else
         {
-            forwardSpeed = Mathf.Lerp(forwardSpeed, 0.0f, 0.05f);
+            forwardNonsmooth = 0;
         }
-        //Right & Left
         if (Input.GetKey(KeyCode.D) && rightSpeed <= 1)
         {
-            rightSpeed = Mathf.Lerp(rightSpeed, 1.5f, acceleration);
+            rightNonsmooth = 1;
         }
         else if(Input.GetKey(KeyCode.A)&& rightSpeed>=-1)
         {
-            rightSpeed = Mathf.Lerp(rightSpeed, -1.5f, acceleration);
-        }
-        else if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
-        {
-            Invoke("resetRightToZero",0.5f);
+            rightNonsmooth = -1;
         }
         else
         {
-            rightSpeed = Mathf.Lerp(rightSpeed, 0.0f, 0.05f);
+            rightNonsmooth = 0;
         }
-        forwardSpeed = Mathf.Clamp(forwardSpeed, -1, 1);
-        rightSpeed = Mathf.Clamp(rightSpeed, -1, 1);
         applyRightForward();
     }
 
     void applyRightForward(){
         anim.SetFloat("Forward",forwardSpeed);
         anim.SetFloat("Right",rightSpeed);
-    }
-
-    void resetForwardToZero()
-    {
-        forwardSpeed = 0;
-    }
-    void resetRightToZero()
-    {
-        rightSpeed = 0;
     }
     void mouserotation()
     {
@@ -142,6 +131,14 @@ public class playerBlend : MonoBehaviour
 
         shootNow = false;
     }
+
+    float smoothness = 8; //less = smoother but 8 is perfect ya ksomak
+    float smoothValue(float x, float y)
+    {
+        return Mathf.Lerp(x, y, Time.deltaTime * smoothness);
+    }
+
+
     //b7b shanab hesham
     //kosom abusamra
 }
