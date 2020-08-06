@@ -26,7 +26,7 @@ public class playerBlend : MonoBehaviour
     //animation 
     float smoothness = 8; //less = smoother but 8 is perfect ya ksomak
 
-    bool shootPrev;
+    public bool shootPrev;
 
     void Start()
     {
@@ -142,6 +142,7 @@ public class playerBlend : MonoBehaviour
         if (shootNow != shootPrev)
         {
             Debug.Log("piwpiw");
+            Debug.Log(Time.time);
 
             shootPrev = shootNow;
         }

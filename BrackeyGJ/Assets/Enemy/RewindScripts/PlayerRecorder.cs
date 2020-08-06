@@ -32,6 +32,8 @@ public class PlayerRecorder : MonoBehaviour {
 				currentState = playerStates.First;
 				transform.position = initialPosition;
 				transform.rotation = initialRotation;
+				playerBlendComponent.shootNow = false;
+				playerBlendComponent.shootPrev = false;
 
 			} else{
 			    currentState = playerStates.Last;
