@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//test
 public class enemy : MonoBehaviour
 {
     public GameObject chest;
