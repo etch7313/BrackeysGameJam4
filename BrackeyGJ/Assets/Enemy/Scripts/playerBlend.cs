@@ -36,11 +36,11 @@ public class playerBlend : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        if (isPlaying){
+        //if (isPlaying){
             chest.transform.LookAt(aimat.transform.position);
             chest.transform.Rotate(new Vector3(0, rotate, 0));
             head.transform.LookAt(aimat.transform.position);
-        }
+        //}
     }
 
     private void Update()
