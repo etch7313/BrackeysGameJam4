@@ -15,8 +15,8 @@ public class playerBlend : MonoBehaviour
     public bool backward;
     public bool isPlaying = true;
 
-    float forwardNonsmooth;
-    float rightNonsmooth;
+    public float forwardNonsmooth;
+    public float rightNonsmooth;
     
     //recordables
     public GameObject headpivot; //rotation only
@@ -24,7 +24,7 @@ public class playerBlend : MonoBehaviour
     public float rightSpeed; //Right/Left Animation
     public bool shootNow = false;
     //animation 
-    [SerializeField] private float acceleration = 0.00005f;
+    float smoothness = 8; //less = smoother but 8 is perfect ya ksomak
 
     void Start()
     {
@@ -59,12 +59,15 @@ public class playerBlend : MonoBehaviour
             //Mouse input
             mouserotation();
             smoothInput();
+
         }
         else{
-            applyRightForward();
         }
-
         
+        applyRightForward();
+        Shoot();
+
+
     }
 
     public void smoothInput()
@@ -108,12 +111,12 @@ public class playerBlend : MonoBehaviour
         {
             rightNonsmooth = 0;
         }
-        applyRightForward();
 
         if(Input.GetKeyDown(KeyCode.Mouse0))
         {
-            Shoot();
+            shootNow = true;
         }
+        //applyRightForward();
     }
 
     void applyRightForward(){
@@ -133,13 +136,15 @@ public class playerBlend : MonoBehaviour
 
     void Shoot()
     {
+        if (shootNow)
+        {
+            Debug.Log("piwpiw");
 
-        Debug.Log("piwpiw");
-
-        shootNow = false;
+            shootNow = false;
+        }
     }
 
-    float smoothness = 8; //less = smoother but 8 is perfect ya ksomak
+    
     float smoothValue(float x, float y)
     {
         return Mathf.Lerp(x, y, Time.deltaTime * smoothness);
