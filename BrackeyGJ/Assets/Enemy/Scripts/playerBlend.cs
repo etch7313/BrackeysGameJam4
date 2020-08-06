@@ -20,7 +20,7 @@ public class playerBlend : MonoBehaviour
     
     //recordables
     public GameObject headpivot; //rotation only
-    public float forwardSpeed;//Forward Animation
+    public float forwardSpeed;//Forward/Backwards Animation
     public float rightSpeed; //Right/Left Animation
     public bool shootNow = false;
     //animation 
@@ -58,11 +58,13 @@ public class playerBlend : MonoBehaviour
             MyInput();
             //Mouse input
             mouserotation();
+            smoothInput();
         }
         else{
             applyRightForward();
         }
-        smoothInput();
+
+        
     }
 
     public void smoothInput()
@@ -107,6 +109,11 @@ public class playerBlend : MonoBehaviour
             rightNonsmooth = 0;
         }
         applyRightForward();
+
+        if(Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            Shoot();
+        }
     }
 
     void applyRightForward(){
@@ -127,7 +134,7 @@ public class playerBlend : MonoBehaviour
     void Shoot()
     {
 
-
+        Debug.Log("piwpiw");
 
         shootNow = false;
     }
