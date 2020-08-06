@@ -26,6 +26,8 @@ public class playerBlend : MonoBehaviour
     //animation 
     float smoothness = 8; //less = smoother but 8 is perfect ya ksomak
 
+    bool shootPrev;
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -34,6 +36,7 @@ public class playerBlend : MonoBehaviour
         aimat.transform.localPosition = new Vector3(0, 0, 2.7f);
 
         Cursor.lockState = CursorLockMode.Locked;
+        shootPrev = shootNow;
     }
 
     // Update is called once per frame
@@ -114,7 +117,7 @@ public class playerBlend : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Mouse0))
         {
-            shootNow = true;
+            shootNow = !shootNow;
         }
         //applyRightForward();
     }
@@ -136,11 +139,11 @@ public class playerBlend : MonoBehaviour
 
     void Shoot()
     {
-        if (shootNow)
+        if (shootNow != shootPrev)
         {
             Debug.Log("piwpiw");
 
-            shootNow = false;
+            shootPrev = shootNow;
         }
     }
 
